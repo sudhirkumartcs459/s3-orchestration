@@ -1,4 +1,10 @@
 terraform {
+  backend "s3" {
+    bucket = "sudhir-terraform-state-prod"
+    key    = "s3-orchestration/terraform.tfstate"
+    region = "ap-south-1"
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -19,4 +25,3 @@ resource "aws_s3_bucket" "demo_bucket" {
     Environment = "Dev"
   }
 }
-
