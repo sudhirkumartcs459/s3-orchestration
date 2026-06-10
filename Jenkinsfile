@@ -21,10 +21,17 @@ pipeline {
             }
         }
 
+        stage('AWS Check') {
+            steps {
+                bat 'aws sts get-caller-identity'
+            }
+        }
+
         stage('Terraform Apply') {
             steps {
                 bat 'terraform apply -auto-approve'
             }
         }
+
     }
 }
