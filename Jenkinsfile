@@ -35,6 +35,18 @@ pipeline {
             }
         }
 
+        stage('Approval for Destroy') {
+            when {
+                expression { params.ACTION == 'destroy' }
+            }
+            steps {
+                input(
+                    message: 'Are you sure you want to destroy the infrastructure?',
+                    ok: 'Destroy'
+                )
+            }
+        }
+
         stage('Terraform Action') {
             steps {
                 script {
