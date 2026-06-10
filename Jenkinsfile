@@ -47,6 +47,20 @@ pipeline {
             }
         }
 
+
+        stage('Approval to create') {
+            when {
+                expression { params.ACTION == 'apply' }
+            }
+            steps {
+                input(
+                    message: 'Are you sure you want to create the infrastructure?',
+                    ok: 'Create'
+                )
+            }
+        }
+
+
         stage('Terraform Action') {
             steps {
                 script {
