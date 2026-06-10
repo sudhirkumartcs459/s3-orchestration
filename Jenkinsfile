@@ -1,6 +1,14 @@
 pipeline {
     agent any
-    
+
+    parameters {
+        choice(
+            name: 'ACTION',
+            choices: ['apply', 'destroy'],
+            description: 'Select Terraform action'
+        )
+    }
+
     environment {
         AWS_ACCESS_KEY_ID     = credentials('aws-access-key')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
@@ -27,9 +35,15 @@ pipeline {
             }
         }
 
-        stage('Terraform Apply') {
+        stage('Terraform Action') {
             steps {
-                bat 'terraform apply -auto-approve'
+                script {
+                    if (params.ACTION == 'apply') {
+                        bat 'terraform apply -auto-approve'
+                    } else if (params.ACTION == 'destroy') {
+                        bat 'terraform destroy -auto-approve'
+                    }
+                }
             }
         }
     }
