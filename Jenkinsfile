@@ -11,7 +11,7 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                bat 'terraform init'
+                bat 'terraform init -reconfigure -migrate-state -input=false'
             }
         }
 
